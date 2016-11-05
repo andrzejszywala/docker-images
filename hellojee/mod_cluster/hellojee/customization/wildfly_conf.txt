@@ -1,0 +1,11 @@
+embed-server --server-config=standalone.xml
+batch
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=lb:add(host="lb",port="80")
+/extension=org.jboss.as.modcluster:add
+/subsystem=undertow/server=default-server/ajp-listener=ajp:add(socket-binding=ajp, scheme="http")
+/:composite(steps=[{"operation" => "add", "address" => [ ("subsystem" => "modcluster") ]},{ "operation" => "add", "address" => [ ("subsystem" => "modcluster"), ("mod-cluster-config" => "configuration") ], "connector" => "ajp", "balancer" => "hellojee", "advertise" => "false", "proxies" => ["lb"] }])
+# Execute the batch
+run-batch
+reload
+stop-embedded-server
+quit
