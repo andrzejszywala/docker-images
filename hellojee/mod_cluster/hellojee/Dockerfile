@@ -1,4 +1,4 @@
-FROM jboss/wildfly
+FROM jboss/wildfly:10.1.0.Final
 MAINTAINER Andrzej Szywala <andrzej.szywala@gmail.com>
 ADD customization $JBOSS_HOME
 RUN /opt/jboss/wildfly/bin/jboss-cli.sh --file=/opt/jboss/wildfly/wildfly_conf.txt
