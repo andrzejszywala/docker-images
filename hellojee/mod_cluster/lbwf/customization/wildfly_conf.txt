@@ -1,0 +1,8 @@
+embed-server --server-config=standalone-load-balancer.xml
+batch
+/subsystem=undertow/server=default-server/https-listener=wildflyHttpsListener:add(socket-binding="https", security-realm="ApplicationRealm")
+# Execute the batch
+run-batch
+reload
+stop-embedded-server
+quit
