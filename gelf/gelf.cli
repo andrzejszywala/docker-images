@@ -1,0 +1,11 @@
+embed-server --server-config=${env.CONFIG_XML}
+batch 
+/subsystem=logging/custom-handler="GelfLogger":add(class="biz.paluch.logging.gelf.wildfly.WildFlyGelfLogHandler", module="biz.paluch.logging",properties={"host"=>"${env.GRAYLOG_URL}","port"=>"${env.GRAYLOG_PORT}","version"=>"1.1","facility"=>"java-test","extractStackTrace"=>"true","filterStackTrace"=>"true","mdcProfiling"=>"true","timestampPattern"=>"yyyy-MM-dd HH:mm:ss,SSSS","maximumMessageSize"=>"8192", "additionalFields"=>"APP=${env.APP},APPVER=${env.APPVER}"})
+/subsystem=logging/root-logger=ROOT:add-handler(name=GelfLogger)
+/subsystem=logging/root-logger=ROOT:remove-handler(name=CONSOLE)
+/subsystem=logging/root-logger=ROOT:remove-handler(name=FILE)
+# Execute the batch
+run-batch
+stop-embedded-server
+quit
+
