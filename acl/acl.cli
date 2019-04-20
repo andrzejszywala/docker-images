@@ -1,0 +1,8 @@
+embed-server --server-config=${env.CONFIG_XML}
+batch 
+/subsystem=undertow/server=default-server/host=default-host/setting=access-log:add(use-server-log=true)
+# Execute the batch
+run-batch
+stop-embedded-server
+quit
+
